@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout, get_u
 from django.contrib.auth.decorators import login_required
 from main.forms import MainUserCreationForm
 from django.contrib import messages
-from main.messages import SUCCESS_REGISTRATION
+from main.messages import SUCCESS_REGISTRATION, INVALID_USER
 
 import datetime, time
 
@@ -27,8 +27,11 @@ def login(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(username=email, password=password)
+        print(username)
+        print(password)
+        user = authenticate(username=username, password=password)
         if user is None:
+            messages.add_message(request, messages.WARNING, INVALID_USER)
             return redirect(reverse('main:login'))
         auth_login(request, user)
         return redirect(reverse('main:main_page'))

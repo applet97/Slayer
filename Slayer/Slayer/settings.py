@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'main.MainUser'
 
 # Application definition
 
@@ -39,11 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'api',
-    'moderators',
     'avatar',
-    'djcelery',
-    'kombu.transport.django'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -130,6 +125,16 @@ EMAIL_PORT = 25
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.abspath(
+   os.path.join(BASE_DIR, "static"),
+),)
 
 LOGIN_URL = '/main/login/'
 LOGOUT_URL = '/main/logout/'
+
+AUTH_USER_MODEL = 'main.MainUser'
+
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
