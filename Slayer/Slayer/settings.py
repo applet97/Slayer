@@ -133,8 +133,3 @@ LOGIN_URL = '/main/login/'
 LOGOUT_URL = '/main/logout/'
 
 AUTH_USER_MODEL = 'main.MainUser'
-
-#Authentication backends
-AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
