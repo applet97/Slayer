@@ -22,7 +22,7 @@ def user_logout(request):
 
 def login(request):
 	if request.method == "POST":
-	    user_name = request.POST["user_name"]
+	    username = request.POST["username"]
 	    password = request.POST["password"]
 	    user = authenticate(username=email, password=password)
 	    if user is None:

@@ -26,7 +26,7 @@ def register(request):
     View for registering to game
     """
     try:
-    	user = User.objects.get(user_name=request.SESSION['username'])
+    	user = User.objects.get(username=request.SESSION['username'])
         game = Game.objects.get(pk=request.POST['game_id'])
     except:
     	return decors.code_response(code=codes.BAD_REQUEST, message=messages.GAME_OR_USER_NOT_FOUND)
@@ -108,7 +108,7 @@ def kill_logs(request):
     logs = list()
     if request.POST['is_my'] == "yes":
         logs = [x.to_json() for x in KillLog.objects.filter(game__id=request.POST['game_id'], \
-            killer__user_name=request.SESSION['username'])]
+            killer__username=request.SESSION['username'])]
     else:
         logs = [x.to_json() for x in KillLog.objects.filter(game__id=request.POST['game_id'])]
     result['killer_logs'] = logs

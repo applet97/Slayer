@@ -14,22 +14,22 @@ from avatar.models import Avatar
 
 
 class MainUserManager(BaseUserManager):
-    def create_user(self, user_name, password=None):
+    def create_user(self, username, password=None):
         """
         Creates and saves a user with the given iin and password
         """
-        if not user_name:
+        if not username:
             raise ValueError('Users must have an username')
-        user = self.model(user_name=user_name)
+        user = self.model(username=username)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, user_name, password):
+    def create_superuser(self, username, password):
         """
         Creates and saves a superuser with the given iin and password
         """
-        user = self.create_user(user_name, password=password)
+        user = self.create_user(username, password=password)
         user.is_superuser = True
         user.is_moderator = True
         user.save(using=self._db)
@@ -40,7 +40,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     """
     Model for storing main user
     """
-    user_name = models.CharField(max_length=9, blank=False, null=False, db_index=True, unique=True, verbose_name=u'Логин',)
+    username = models.CharField(max_length=9, blank=False, null=False, db_index=True, unique=True, verbose_name=u'Логин',)
     email = models.EmailField(max_length=100, blank=True, verbose_name=u'email')
     email_approved = models.BooleanField(default=False, blank=True, verbose_name=u'Имейл подтвержден')
 
@@ -49,12 +49,12 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     second_name = models.CharField(max_length=255, blank=True, verbose_name=u'Фамилия')
     school = models.CharField(max_length=100, blank=True, verbose_name=u'Школа')
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)
 
     timestamp = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD = 'user_name'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     objects = MainUserManager()
@@ -140,7 +140,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
             pass
         return {
                 'id': self.pk,
-                'user_name': self.user_name,
+                'username': self.username,
                 'email': self.email, 
                 'first_name':self.first_name,
                 'second_name': self.second_name,

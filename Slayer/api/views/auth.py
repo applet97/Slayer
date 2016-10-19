@@ -25,10 +25,10 @@ def login(request):
     Simple authentification
     if OK, returns token
     """
-    user_name = request.POST["username"]
+    username = request.POST["username"]
     password = request.POST["password"]
     # authenticate user
-    user = authenticate(username=user_name, password=password)
+    user = authenticate(username=username, password=password)
     if user is None:
         return {
             'code': codes.WRONG_PASSWORD,
@@ -71,16 +71,16 @@ def register(request):
     Simple registration
     if OK, returns token
     """
-    user_name = request.POST['username']
+    username = request.POST['username']
     email = request.POST.get('email')
     password = request.POST['password']
     # TODO email regex check
     if email is not None or email != '':
         if User.objects.filter(email=email, email_approved=True).exists():
             return decors.code_response(code=codes.EMAIL_ALREADY_EXISTS, message=messages.EMAIL_ALREADY_EXISTS)
-    if User.objects.filter(user_name=user_name).exists():
+    if User.objects.filter(username=username).exists():
         return decors.code_response(code=codes.INVALID_FORM, message=messages.USER_ALREADY_EXISTS)
-    user = User.objects.create(user_name=user_name, email=email)
+    user = User.objects.create(username=username, email=email)
     user.set_password(password)
     user.save()
     created_token = token.create_token(user=user)
@@ -97,7 +97,7 @@ def register(request):
 @decors.required_request_params(['username'])
 def forgot_password(request):
     try:
-        user = User.objects.get(user_name=request.POST['username'])
+        user = User.objects.get(username=request.POST['username'])
     except:
         return decors.code_response(codes.BAD_REQUEST, message=messages.USER_NOT_FOUND)
     if not user.email_approved:
