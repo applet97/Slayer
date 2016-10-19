@@ -27,8 +27,6 @@ def login(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        print(username)
-        print(password)
         user = authenticate(username=username, password=password)
         if user is None:
             messages.add_message(request, messages.WARNING, INVALID_USER)
@@ -37,19 +35,6 @@ def login(request):
         return redirect(reverse('main:main_page'))
     return render(request, 'main/login.html')
 
-
-def register(request):
-    """
-    """
-    if request.method == "POST":
-        form = MainUserCreationForm(request.POST.copy(), request.FILES.copy())
-        if not form.is_valid():
-        	messages.add_message(request, messages.WARNING, form.errors)
-        	return redirect(reverse('main:login'))
-        else:
-            form.save()
-            messages.add_message(request, messages.SUCCESS, SUCCESS_REGISTRATION)
-    return redirect(reverse('main:main_page'))
 
 
 

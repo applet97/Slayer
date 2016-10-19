@@ -129,7 +129,9 @@ STATICFILES_DIRS = (os.path.abspath(
    os.path.join(BASE_DIR, "static"),
 ),)
 
-LOGIN_URL = '/main/login/'
-LOGOUT_URL = '/main/logout/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 
 AUTH_USER_MODEL = 'main.MainUser'
+
+SITE_URL = 'slayer.kz'
