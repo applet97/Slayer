@@ -30,6 +30,7 @@ class MainUserManager(BaseUserManager):
         Creates and saves a superuser with the given iin and password
         """
         user = self.create_user(username, password=password)
+        user.is_active = True
         user.is_superuser = True
         user.is_moderator = True
         user.save(using=self._db)
@@ -40,7 +41,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     """
     Model for storing main user
     """
-    username = models.CharField(max_length=9, blank=False, null=False, db_index=True, unique=True, verbose_name=u'Логин',)
+    username = models.CharField(max_length=50, blank=False, null=False, db_index=True, unique=True, verbose_name=u'Логин',)
     email = models.EmailField(max_length=100, blank=True, verbose_name=u'email')
     email_approved = models.BooleanField(default=False, blank=True, verbose_name=u'Имейл подтвержден')
 

@@ -23,7 +23,7 @@ def git_pull():
     """
     Updates the repository
     """
-    run("cd ~/125/; git pull origin master")
+    run("cd ~/slayer/; git pull origin master")
 
 
 @task
@@ -31,12 +31,12 @@ def migrate():
     """
     Make migrations
     """
-    run("cd ~/125/; source ./bin/activate; cd web; ./manage.py migrate --settings=web.prod_settings")
+    run("cd ~/slayer/; source ./bin/activate; cd web; ./manage.py migrate --settings=Slayer.prod_settings")
 
 
 @task
 def collectstatic():
-    run("cd ~/125/; source ./bin/activate; cd web; ./manage.py collectstatic")
+    run("cd ~/slayer/; source ./bin/activate; cd web; ./manage.py collectstatic")
 
 
 @task
@@ -44,7 +44,7 @@ def restart():
     """
     Restarts gunicorn & nginx 
     """
-    sudo("supervisorctl restart 125; supervisorctl restart celery125; service nginx restart")
+    sudo("supervisorctl restart slayer; service nginx restart")
 
 
 @task
@@ -52,7 +52,7 @@ def open_shell():
     """
     Opens shell
     """
-    run("cd ~/125/; source ./bin/activate; cd web; ./manage.py shell --settings=web.prod_settings")
+    run("cd ~/slayer/; source ./bin/activate; cd Slayer; ./manage.py shell --settings=Slayer.prod_settings")
 
 
 @task
@@ -60,6 +60,6 @@ def start_celery():
     """
     Script for starting celery
     """
-    run("cd ~/125/; source ./bin/activate; cd web; celery -A web worker -l info")
+    run("cd ~/slayer/; source ./bin/activate; cd web; celery -A web worker -l info")
 
 

@@ -20,3 +20,16 @@ class MainUserCreationForm(UserCreationForm):
         fields = '__all__'
         exclude = [
         ]
+
+
+class MainUserChangeForm(UserChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super(MainUserChangeForm, self).__init__(*args, **kwargs)
+        #del self.fields['username'] # remove username field that was inherited from AbstractBaseUser
+
+    class Meta(UserChangeForm.Meta):
+        model = User
+        fields = '__all__'
+        exclude = [
+        ]

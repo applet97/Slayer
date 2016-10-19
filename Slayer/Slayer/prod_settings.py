@@ -3,11 +3,12 @@ Django settings for prod server.
 """
 from settings import *
 
-ALLOWED_HOSTS = ['ent125.com', '195.16.90.30', 'slayer.kz']
+ALLOWED_HOSTS = ['slayer.kz']
 
 #PASSWORD_RESET_LINK = "http://prod.idocs.kz/new_password/{0}/"
 #VERIFY_LINK = "http://prod.idocs.kz/register/user/{0}/"
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -18,6 +19,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+"""
 
 STATIC_ROOT = "static"
 
