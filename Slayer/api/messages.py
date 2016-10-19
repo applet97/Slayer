@@ -1,0 +1,7 @@
+GAME_OR_USER_NOT_FOUND = u'Игра не найдена'
+USER_NOT_FOUND = u'Пользователь не найден'
+SUCCESS_REGISTRATION = u'Успешная регистация'
+GAME_STARTED = u'Игра уже началась'
+USER_ALREADY_REGISTERED = u'Пользователь уже зарегистрирован'
+SUCCESS_KILL = u'Успешное убийство'
+SECRET_KEY_NOT_VALID = u'Неправильный секретный ключ'
