@@ -1,0 +1,13 @@
+Django==1.10.1
+Pillow==3.0.0
+psycopg2==2.6.1
+pytz==2014.10
+PyJWT==1.4.0
+django-avatar==3.0
+requests==2.10.0
+Fabric==1.11.1
+ecdsa==0.13
+paramiko==1.17.1
+pycrypto==2.6.1
+gunicorn==19.6.0
+django-celery==3.1.17
