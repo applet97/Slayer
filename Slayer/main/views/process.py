@@ -25,6 +25,7 @@ def basic(request):
     my_entry = get_object_or_404(GameEntry, player=request.user)
     params['secret_key'] = my_entry.secret_key
     params['victim'] = my_entry.victim
+    params['my_entry'] = my_entry
     if request.method == "POST":
         victim_entry = get_object_or_404(GameEntry, player=my_entry.victim)
         secret_key = request.POST.get('secret_key')

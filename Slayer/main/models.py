@@ -242,7 +242,7 @@ class GameEntry(models.Model):
         return result
 
     def __unicode__(self):
-        return self.game.__unicode__() + " " + self.player.__unicode__() + " " + self.victim.__unicode__()
+        return self.game.__unicode__() + " " + self.player.__unicode__()
 
     class Meta:
         unique_together = ('game', 'player',)
