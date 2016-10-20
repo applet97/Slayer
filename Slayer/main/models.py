@@ -129,7 +129,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
         return u"{0} {1} {2}".format(self.second_name, self.first_name, self.middle_name).title()
 
     def __unicode__(self):
-        return self.username
+        return self.username + " " + self.first_name + " " + self.second_name
 
     def to_json(self):
         url = ''
