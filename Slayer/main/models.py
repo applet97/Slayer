@@ -69,7 +69,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     
     birth_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата рождения')
 
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_moderator = models.BooleanField(default=False)
 
     timestamp = models.DateTimeField(auto_now=True)
@@ -194,6 +194,9 @@ class Game(models.Model):
 
     timestamp = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return self.name
+
     def to_json(self):
         result = dict()
         result['name'] = self.name
@@ -210,7 +213,7 @@ class GameEntry(models.Model):
 
     kills = models.SmallIntegerField(default=0, verbose_name=u'Убийств')
 
-    approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=True)
     secret_key = models.CharField(max_length=50, blank=True, null=True, verbose_name=u'Секретный ключ')
 
     ALIVE = 0
@@ -238,12 +241,19 @@ class GameEntry(models.Model):
             result['secret_key'] = self.secret_key
         return result
 
+    def __unicode__(self):
+        return self.game.__unicode__() + " " + self.player.__unicode__() + " " + self.victim.__unicode__()
+
+    class Meta:
+        unique_together = ('game', 'player',)
+        verbose_name_plural = u'Game Entries'
+
 
 class KillLogManager(models.Manager):
 
-    def create_log(self, game, killer, victim):
+    def create_log(self, entry):
         # TODO: push notification about new kill
-        self.create(game=game, killer=killer, victim=victim)
+        self.create(game=entry.game, killer=entry.player, victim=entry.victim)
 
 
 class KillLog(models.Model):
@@ -262,4 +272,7 @@ class KillLog(models.Model):
         result['victim'] = self.victim.to_json()
         result['timestamp'] = time.mktime(self.timestamp.timetuple())
         return result
+
+    def __unicode__(self):
+        return self.game.__unicode__() + " " + self.killer.__unicode__()
 

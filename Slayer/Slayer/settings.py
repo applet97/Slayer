@@ -135,3 +135,7 @@ LOGOUT_URL = '/logout/'
 AUTH_USER_MODEL = 'main.MainUser'
 
 SITE_URL = 'slayer.kz'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
