@@ -50,6 +50,25 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     second_name = models.CharField(max_length=255, blank=True, verbose_name=u'Фамилия')
     school = models.CharField(max_length=100, blank=True, verbose_name=u'Школа')
 
+    mobile_phone = models.CharField(max_length=20, blank=True, verbose_name=u'Номер телефона')
+
+    FIT = 0
+    BS = 1
+    FOGI = 2
+    MSHE = 3
+    NOT_SELECTED = 4
+
+    FACULTIES = (
+        (FIT, u'ФИТ'),
+        (BS, u'БШ'),
+        (FOGI, u'ФЕНГИ'),
+        (MSHE, u'МШЭ'),
+        )
+
+    faculty = models.SmallIntegerField(choices=FACULTIES, default=NOT_SELECTED, verbose_name=u'Факультет')
+    
+    birth_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата рождения')
+
     is_active = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)
 
