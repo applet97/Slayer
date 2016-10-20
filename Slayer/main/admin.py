@@ -38,6 +38,10 @@ class MainUserAdmin(UserAdmin):
                     'first_name',
                     'middle_name',
                     'second_name',
+                    'mobile_phone',
+                    'faculty',
+                    'birth_date',
+                    'gender',
             )}),
         ('Password', {'fields' : ('password', ) }),  # we can change password in admin-site
         ('Permissions', {'fields' : ('is_active',  'is_moderator', 'is_superuser',  ) }),
