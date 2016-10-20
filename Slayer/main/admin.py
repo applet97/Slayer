@@ -4,7 +4,7 @@ import ast
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from main.models import MainUser
+from main.models import MainUser, Game, GameEntry, KillLog
 from main.forms import MainUserCreationForm, MainUserChangeForm
 
 @admin.register(MainUser)
@@ -55,3 +55,40 @@ class MainUserAdmin(UserAdmin):
 
     ordering = ('username',)
     filter_horizontal = ()
+
+
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'status',
+        'shuffled',
+        'start_date',
+        'end_date'
+    )
+
+
+@admin.register(GameEntry)
+class GameEntryAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'game',
+        'player',
+        'victim',
+        'kills',
+        'approved',
+        'secret_key',
+        'status'
+    )
+
+
+@admin.register(KillLog)
+class KillLogAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'game',
+        'killer',
+        'victim'
+    )
+    

@@ -10,5 +10,8 @@ urlpatterns = [
 	url(r'^logout/$', auth.user_logout, name='logout'),
 	url(r'^profile/$', profile.profile, name='profile'),
 	url(r'^change_password/$', profile.change_password, name='change_password'),
+	url(r'^search/$', profile.search, name='search'),
+	url(r'^rating/$', process.rating, name='rating'),
+	url(r'^history/$', process.history, name='history'),
 
 ]
