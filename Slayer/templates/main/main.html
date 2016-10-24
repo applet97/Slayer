@@ -4,7 +4,14 @@
 {% block content %}
 <div class="container">
 	<div class="row">
+        {% if game.status == 0 %}
+            {{ game. }}
+            <div class="row">
+            <h4 id='r' style="float: right"></h4>
+            </div>
+        {% endif %}
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <h4>Чтобы убить свою жертву, напишите его секретный ключ</h4>
 			<form class="form" action="{% url 'main:main_page' %}" method="post">
 	            {% csrf_token %}
 	            <div class="input-group">
@@ -22,16 +29,19 @@
             <h4>Вы</h4>
             <div class="row">
                 <div class="col-md-4">
-    		      {% avatar me 150 %}
+    		      <a href="{% avatar_url me %}" >{% avatar me 150 %}</a>
                 </div>
                 <div class="col-md-8">
                     <div class="row">
-                        {{ me.first_name }} {{ me.second_name }}
+                        ФИО:    {{ me.first_name }} {{ me.second_name }}
+                        {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>
+                        {% else %} <span style="color: red; ">Убит</span>
+                        {% endif %}
                     </div>
                     <div class="row">
-                        {{ me.date_of_birth }}
+                        Дата рождения: {{ me.date_of_birth }}
                     </div>
-                    <div class="row">{% if me.faculty == 0 %} ФИТ
+                    <div class="row"> Факультет: {% if me.faculty == 0 %} ФИТ
                                         {% elif me.faculty == 1 %} Бизнес школа
                                         {% elif me.faculty == 2 %} ФЭНГИ
                                         {% elif me.faculty == 3 %} МШЭ
@@ -46,22 +56,26 @@
             {% if my_entry.game.status != 0  %}
                 <div class="row">
                     <div class="col-md-4">
-                      {% avatar victim 150 %}
+                      <a href="{% avatar_url me %}" >{% avatar victim 150 %}</a>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-                            {{ victim.first_name }} {{ victim.second_name }}
+                            ФИО: {{ victim.first_name }} {{ victim.second_name }} 
+                            {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>
+                            {% else %} <span style="color: red; ">Убит</span>
+                            {% endif %}
                         </div>
                         <div class="row">
-                            {{ victim.date_of_birth }}
+                            Дата рождения: {{ victim.date_of_birth }}
                         </div>
-                        <div class="row">{% if victim.faculty == 0 %} ФИТ
+                        <div class="row">Факультет: {% if victim.faculty == 0 %} ФИТ
                                             {% elif victim.faculty == 1 %} Бизнес школа
                                             {% elif victim.faculty == 2 %} ФЭНГИ
                                             {% elif victim.faculty == 3 %} МШЭ
                                             {% else %} Нет информации
                                             {% endif %}
                         </div>
+                        <div class="row">Курс: {{victim.course}}</div>
                     </div>
                 </div>
             {% else %}
@@ -70,5 +84,14 @@
     	</div>
     </div>        
 </div>
+
+<script type="text/javascript">
+    time={{game_start_left}},r=document.getElementById('r'),tmp=time;
+    setInterval(function(){
+    var c=tmp--,m=(c/60)>>0, h=(m/60)>>0, mm=(c/60 - h*60)>>0, s=(c-m*60)+'';
+    r.textContent='Game starts in '+ h +':' + mm+':'+(s.length>1?'':'0')+s
+    tmp!=0||(tmp=time);
+    },1000);
+</script>
 
 {% endblock content %}

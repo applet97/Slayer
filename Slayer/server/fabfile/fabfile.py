@@ -31,12 +31,12 @@ def migrate():
     """
     Make migrations
     """
-    run("cd ~/slayer/; source ./bin/activate; cd web; ./manage.py migrate --settings=Slayer.prod_settings")
+    run("cd ~/slayer/; source ./bin/activate; cd Slayer; ./manage.py migrate --settings=Slayer.prod_settings")
 
 
 @task
 def collectstatic():
-    run("cd ~/slayer/; source ./bin/activate; cd web; ./manage.py collectstatic")
+    run("cd ~/slayer/; source ./bin/activate; cd Slayer; ./manage.py collectstatic --settings=Slayer.prod_settings")
 
 
 @task
