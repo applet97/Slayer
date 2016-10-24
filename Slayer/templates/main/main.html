@@ -28,10 +28,10 @@
     	<div class="col-md-6">
             <h4>Вы</h4>
             <div class="row">
-                <div class="col-md-4">
-    		      <a href="{% avatar_url me %}" >{% avatar me 150 %}</a>
+                <div class="col-md-5">
+    		      <a href="{% avatar_url me %}" >{% avatar me 200 %}</a>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="row">
                         ФИО:    {{ me.first_name }} {{ me.second_name }}
                         {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>
@@ -66,10 +66,10 @@
             <h4>Ваша жертва</h4>
             {% if my_entry.game.status != 0  %}
                 <div class="row">
-                    <div class="col-md-4">
-                      <a href="{% avatar_url me %}" >{% avatar victim 150 %}</a>
+                    <div class="col-md-5">
+                      <a href="{% avatar_url me %}" >{% avatar victim 200 %}</a>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="row">
                             ФИО: {{ victim.first_name }} {{ victim.second_name }} 
                             {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>

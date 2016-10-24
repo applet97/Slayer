@@ -113,6 +113,9 @@ ADMINS = (
 AVATAR_MAX_AVATARS_PER_USER = 1  # previous avatars will be deleted
 AVATAR_MAX_SIZE = 5242880  # 5MB
 AVATAR_AUTO_GENERATE_SIZES = (150, 80, 40, )
+AVATAR_PROVIDERS = (
+    'avatar.providers.DefaultAvatarProvider',
+    )
 
 FROM_EMAIL = u'slayer.kz <webmaster@slayer.kz>'
 EMAIL_HOST = '195.16.90.30'
