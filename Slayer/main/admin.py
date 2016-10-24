@@ -22,6 +22,7 @@ class MainUserAdmin(UserAdmin):
         'email_approved',
         'first_name',
         'is_moderator',
+        'is_superuser',
         'city',
         'is_active',
         'gender',
