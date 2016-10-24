@@ -7,11 +7,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib import messages
 from main.messages import *
-from main.models import GameEntry, KillLog
+from main.models import GameEntry, KillLog, Game
 
 from django.contrib.auth import authenticate, login as auth_login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 
+from django.utils import timezone
+from datetime import timedelta
 import datetime, time
 
 User = get_user_model()
@@ -23,9 +25,13 @@ def basic(request):
     params = dict()
     params['me'] = request.user
     my_entry = get_object_or_404(GameEntry, player=request.user)
+    victim_entry = get_object_or_404(GameEntry, player=my_entry.victim)
     params['secret_key'] = my_entry.secret_key
     params['victim'] = my_entry.victim
     params['my_entry'] = my_entry
+    params['victim_entry'] = victim_entry
+    params['game'] = Game.objects.first()
+    params['game_start_left'] = (Game.objects.first().start_date - timezone.now()).seconds
     if request.method == "POST":
         # kill process
         victim_entry = get_object_or_404(GameEntry, player=my_entry.victim)
