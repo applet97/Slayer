@@ -27,6 +27,7 @@ def basic(request):
     params['victim'] = my_entry.victim
     params['my_entry'] = my_entry
     if request.method == "POST":
+        # kill process
         victim_entry = get_object_or_404(GameEntry, player=my_entry.victim)
         secret_key = request.POST.get('secret_key')
         if secret_key == victim_entry.secret_key:
@@ -48,6 +49,8 @@ def rating(request):
     params = dict()
     params['me'] = request.user
     results = list()
+    params['entries'] = GameEntry.objects.filter(player__is_superuser=False).order_by('kills')
+    print params
     return render(request, template, params)
 
 
@@ -57,4 +60,7 @@ def history(request):
     params = dict()
     params['me'] = request.user
     results = list()
+    params['killer_logs'] = request.user.killer_logs.all()
+    print params['killer_logs']
+
     return render(request, template, params)
