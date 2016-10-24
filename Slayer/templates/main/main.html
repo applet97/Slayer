@@ -45,9 +45,20 @@
                                         {% elif me.faculty == 1 %} Бизнес школа
                                         {% elif me.faculty == 2 %} ФЭНГИ
                                         {% elif me.faculty == 3 %} МШЭ
+                                        {% elif me.faculty == 5 %} КМА
+                                        {% elif me.faculty == 6 %} ХТОВ
+                                        {% elif me.faculty == 7 %} МКМ
                                         {% else %} Нет информации
                                         {% endif %}
                     </div>
+
+                    <div class="row"> Ваш секретный ключ: 
+                    {% if my_entry.game.status != 0 %}
+                        {{ my_entry.secret_key }}
+                    {% else %}
+                        Скрыто до начала игры
+                    {% endif %}
+                        </div>
                 </div>
             </div>
     	</div>
@@ -79,7 +90,7 @@
                     </div>
                 </div>
             {% else %}
-                <div class="row">Информация скрыта</div>
+                <div class="row">Информация скрыта до начала игры</div>
             {% endif %}
     	</div>
     </div>        

@@ -31,7 +31,11 @@ def basic(request):
     params['my_entry'] = my_entry
     params['victim_entry'] = victim_entry
     params['game'] = Game.objects.first()
-    params['game_start_left'] = (Game.objects.first().start_date - timezone.now()).seconds
+    
+    print (Game.objects.first().start_date - datetime.datetime.now())
+    delta = Game.objects.first().start_date - datetime.datetime.now()
+    params['game_start_left'] = delta.days * 24 * 60 * 60 +  delta.seconds
+    print params['game_start_left']
     if request.method == "POST":
         # kill process
         victim_entry = get_object_or_404(GameEntry, player=my_entry.victim)
