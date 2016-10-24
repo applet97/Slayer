@@ -41,9 +41,10 @@ window.setTimeout(function() {
               <ul class="nav navbar-nav navbar-left">
                 <li><a href="{% url 'main:rating' %}">Рейтинг</a></li>
                 <li><a href="{% url 'main:history' %}">История</a></li>
+                <li><a href="{% url 'main:change_password' %}">Сменить пароль</a></li>
               </ul>
             </div>
-            <div class="col-sm-3 col-md-3 col-md-offset-3 ">
+            <div class="col-sm-3 col-md-3  ">
               <form class="navbar-form" role="search" action="{% url 'main:search' %}" method="post">
                 {% csrf_token %}
                 <div class="input-group">

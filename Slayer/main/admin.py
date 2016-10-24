@@ -25,6 +25,7 @@ class MainUserAdmin(UserAdmin):
         'city',
         'is_active',
         'gender',
+        'course'
     )
 
     list_filter = ('is_moderator', )
@@ -42,6 +43,7 @@ class MainUserAdmin(UserAdmin):
                     'faculty',
                     'birth_date',
                     'gender',
+                    'course'
             )}),
         ('Password', {'fields' : ('password', ) }),  # we can change password in admin-site
         ('Permissions', {'fields' : ('is_active',  'is_moderator', 'is_superuser',  ) }),

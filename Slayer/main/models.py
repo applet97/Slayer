@@ -57,13 +57,34 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     FOGI = 2
     MSHE = 3
     NOT_SELECTED = 4
+    KMA = 5
+    XTOB = 6
+    MKM = 7
 
     FACULTIES = (
         (FIT, u'ФИТ'),
         (BS, u'БШ'),
-        (FOGI, u'ФЕНГИ'),
+        (FOGI, u'ФЭНГИ'),
         (MSHE, u'МШЭ'),
+        (KMA, u'КМА'),
+        (XTOB, u'ХТОВ'),
+        (MKM, u'МКМ'),
         )
+
+    FIRST = 1
+    SECOND = 2
+    THIRD = 3
+    FOURTH = 4
+    FIFTH = 5
+    COURSES = (
+        (FIRST, u'Первый'),
+        (SECOND, u'Второй'),
+        (THIRD, u'Третий'),
+        (FOURTH, u'Четвертый'),
+        (FIFTH, u'Пятый'),
+        )
+
+    course = models.SmallIntegerField(choices=COURSES, default=FIRST, verbose_name=u'Курс')
 
     faculty = models.SmallIntegerField(choices=FACULTIES, default=NOT_SELECTED, verbose_name=u'Факультет')
     
