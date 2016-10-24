@@ -24,6 +24,8 @@ class Command(BaseCommand):
             	entries[i].save()
             entries[len(entries)-1].victim = entries[0].player
             entries[len(entries)-1].save()
+            game.shuffled = True
+            game.save()
             print "Success"
         except Exception as e:
             print "Error %s" % str(e)
