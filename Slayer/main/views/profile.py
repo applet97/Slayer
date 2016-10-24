@@ -7,8 +7,9 @@ from django.conf import settings
 from django.contrib import messages
 from main.messages import *
 from django.db.models import Q
+from django.contrib.auth.forms import PasswordChangeForm
 
-from django.contrib.auth import authenticate, login as auth_login, logout, get_user_model
+from django.contrib.auth import authenticate, login as auth_login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
@@ -29,17 +30,21 @@ def change_password(request):
     if request.method == "POST":
         try:
             old_pass = request.POST['old_password']
-            new_pass = request.POST['new_password']
-            new_pass1 = request.POST['new_password1']
+            new_pass = request.POST['new_password1']
+            new_pass1 = request.POST['new_password2']
             if not request.user.check_password(old_pass):
                 messages.add_message(request, messages.WARNING, ERROR_OLD_PASS)
                 return render(request, 'main/change_password.html')
             if new_pass != new_pass1:
                 messages.add_message(request, messages.WARNING, PASSWORDS_DONT_MATCH)
                 return render(request, 'main/change_password.html')
-            request.user.set_password(new_pass)
-            request.user.save()
-            messages.add_message(request, messages.SUCCESS, SUCCESS)
+            form = PasswordChangeForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                messages.add_message(request, messages.SUCCESS, SUCCESS)
+            else:
+                messages.add_message(request, messages.SUCCESS, form.errors)
         except:
             messages.add_message(request, messages.WARNING, ERROR)
     return render(request, 'main/change_password.html')
