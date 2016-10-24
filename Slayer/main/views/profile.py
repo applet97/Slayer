@@ -30,8 +30,8 @@ def change_password(request):
     if request.method == "POST":
         try:
             old_pass = request.POST['old_password']
-            new_pass = request.POST['new_password']
-            new_pass1 = request.POST['new_password1']
+            new_pass = request.POST['new_password1']
+            new_pass1 = request.POST['new_password2']
             if not request.user.check_password(old_pass):
                 messages.add_message(request, messages.WARNING, ERROR_OLD_PASS)
                 return render(request, 'main/change_password.html')
