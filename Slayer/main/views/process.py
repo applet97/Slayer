@@ -43,6 +43,7 @@ def basic(request):
             victim_entry.status = GameEntry.KILLED
             victim_entry.save()
             my_entry.victim = victim_entry.victim
+            my_entry.kills += 1
             my_entry.save()
         else:
             messages.add_message(request, messages.WARNING, NOT_GOOD_SECRET_KEY)
