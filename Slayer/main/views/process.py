@@ -44,7 +44,6 @@ def basic(request):
             victim_entry.save()
             my_entry.victim = victim_entry.victim
             my_entry.save()
-            KillLog.objects.create_log(entry=my_entry)
         else:
             messages.add_message(request, messages.WARNING, NOT_GOOD_SECRET_KEY)
     return render(request, template, params)
