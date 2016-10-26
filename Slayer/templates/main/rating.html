@@ -28,7 +28,7 @@
 	    	<td>{{entry.course}}</td>
 	    	<td>{{ entry.kills }}</td>
 	    	<td>{% if entry.status == 0 %} <span style='color: green'>Жив</span>
-	    		{% else %} <span style='color: green'> Убит </span>
+	    		{% else %} <span style='color: red'> Убит </span>
 	    		{% endif %}</td>
 	    </tr>
     	{% endfor %}

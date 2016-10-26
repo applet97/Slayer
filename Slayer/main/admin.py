@@ -92,6 +92,7 @@ class KillLogAdmin(admin.ModelAdmin):
         'id',
         'game',
         'killer',
-        'victim'
+        'victim',
+        'timestamp'
     )
     

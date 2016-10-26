@@ -4,12 +4,9 @@
 {% block content %}
 <div class="container">
 	<div class="row">
-        {% if game.status == 0 %}
-            {{ game. }}
-            <div class="row">
-                <h4 id='r' style="float: right"></h4>
-            </div>
-        {% endif %}
+        <div class="row">
+            Айзада Сатаева зафиксировала первое убийство и получается иммунитет! Поздравляем!
+        </div>
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <h4>Чтобы убить свою жертву, напишите его секретный ключ</h4>
 			<form class="form" action="{% url 'main:main_page' %}" method="post">
