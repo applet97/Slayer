@@ -56,6 +56,8 @@ def rating(request):
     params = dict()
     params['me'] = request.user
     results = list()
+    params['total_count'] = GameEntry.objects.filter(player__is_superuser=False).count()
+    params['alive_count'] = GameEntry.objects.filter(player__is_superuser=False, status=GameEntry.ALIVE).count()
     params['entries'] = GameEntry.objects.filter(player__is_superuser=False).order_by('-kills', 'status')
     print params
     return render(request, template, params)
