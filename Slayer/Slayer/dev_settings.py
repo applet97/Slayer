@@ -12,7 +12,7 @@ MEDIA_ROOT = "/media"
 
 STATIC_ROOT = "/static"
 
-SITE_URL = "http://18.194.212.103"
+SITE_URL = "http://18.194.254.202"
 ADMINS_LIST = ['kenenalmat@gmail.com']
 
 DATABASES = {
