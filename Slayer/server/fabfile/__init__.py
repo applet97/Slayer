@@ -1,21 +1,12 @@
-import fabfile
-
 from fabric.decorators import task
 from fabric.state import env
 
-env.repository = "https://github.com/aibaq/slayer.kz"
-env.user = "user_125"
-env.hosts = ["195.16.90.30"]
-#env.key_filename = "~/iDocs.pem"
-#env.filename = "docker-compose.yml"
+import common
+import docker
+import install
 
-@task
-def prod():
-    """
-    ! DON'T USE ! Sets kz environment.
-    """
-    env.hosts = ["195.16.90.30"]
-    env.user = "user_125"
-    env.key_filename = None
-    env.password = "1590751"
-
+env.repository = "https://github.com/applet97/Slayer.git"
+env.user = "ubuntu"
+env.hosts = ["52.57.136.204"]
+env.key_filename = "~/slayer.pem"
+env.filename = "docker-compose.yml"
