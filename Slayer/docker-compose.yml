@@ -20,7 +20,7 @@ services:
       - /static:/static
       - /media:/media
     environment:
-      - DJANGO_SETTINGS_MODULE=slayer.dev_settings
+      - DJANGO_SETTINGS_MODULE=Slayer.dev_settings
   postgres:
     restart: always
     image: postgres
@@ -38,8 +38,7 @@ services:
     command: celery -A slayer worker -l info -B
     environment:
       - C_FORCE_ROOT=true
-      - DJANGO_SETTINGS_MODULE=slayer.dev_settings
-
+      - DJANGO_SETTINGS_MODULE=Slayer.dev_settings
   rabbit:
     restart: always
     image: rabbitmq:alpine

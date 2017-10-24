@@ -1,7 +1,7 @@
 from settings import *
 
 
-ALLOWED_HOSTS =["*"]
+ALLOWED_HOSTS = ["slayer.kz", "18.194.254.202"]
 
 BROKER_URL = 'amqp://mlm:mlm@rabbit:5672/mlm'
 CELERY_ACCEPT_CONTENT = ['json']
