@@ -6,7 +6,7 @@ from fabric.state import env
 def cmd(*args):
 	"""
 	"""
-	sudo('cd ~/mlm; docker-compose -f ' + env.filename + ' ' + ' '.join(args))
+	sudo('cd ~/Slayer; docker-compose -f ' + env.filename + ' ' + ' '.join(args))
 
 @task
 def up():
