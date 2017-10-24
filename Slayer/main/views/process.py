@@ -19,7 +19,6 @@ import datetime, time
 
 from avatar.models import Avatar
 from utils import string_del
-from main.messages import *
 from utils.messages import *
 
 User = get_user_model()
