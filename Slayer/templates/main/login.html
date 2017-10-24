@@ -15,7 +15,16 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>   
 </head>
 
+<script type="text/javascript">  
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 4000);
+</script>
+
 <body>
+  
 
   <div class="loginbg">
      <div class="container">
@@ -25,9 +34,17 @@
                     <div class="account-wall">
                         <div class="avatar">
                             
-                        </div>
-
+                        </div> 
+                            
                          <form class="form-signin" action="{% url 'main:login' %}" method="post" >
+                            {% if messages %}
+                              <div class="hidden-messages row login-hidden" >
+                                  {% for message in messages %}
+                                  <p{% if message.tags %} role="alert" class="alert alert-{{ message.tags }} " {% endif %}>{{ message }}</p>
+                                  {% endfor %}
+                              </div>
+                            {% endif %}
+
                              <h3 class="form-signin-heading">Slayer-KBTU! <br>Пройдите авторизацию</h3>
               <hr class="colorgraph"><br>
                             {% csrf_token %}
@@ -43,7 +60,7 @@
                                       <input  name="password" type="password" class="form-control" placeholder="Password" required>
                              </div>
                             <button class="btn btn-lg logbtn btn-block" type="submit">Sign in</button>
-               
+                            
                          </form>
                     </div>
            

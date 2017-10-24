@@ -11,6 +11,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth import authenticate, login as auth_login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from utils.messages import *
 
 User = get_user_model()
 
@@ -42,7 +43,7 @@ def change_password(request):
             if form.is_valid():
                 form.save()
                 update_session_auth_hash(request, form.user)
-                messages.add_message(request, messages.SUCCESS, SUCCESS)
+                messages.add_message(request, messages.SUCCESS, PASSWORD_CHANGED_SUCCESSFULLY)
             else:
                 messages.add_message(request, messages.SUCCESS, form.errors)
         except:
@@ -62,4 +63,3 @@ def search(request):
      	   Q(second_name__contains=search_by))
         return render(request, template, params)
     return render(request, template)
-    

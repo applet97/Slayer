@@ -6,15 +6,18 @@ from django.template import Context, RequestContext
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib import messages
-from main import messages
+from main.models import *
 
 from django.contrib.auth import authenticate, login as auth_login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from main.forms import MainUserCreationForm
-from django.contrib import messages
-from main.messages import SUCCESS_REGISTRATION, INVALID_USER
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+
+from utils.messages import INVALID_USER
 
 import datetime, time
+
+User = get_user_model()
 
 
 @login_required
@@ -33,9 +36,5 @@ def login(request):
             return redirect(reverse('main:login'))
         auth_login(request, user)
         return redirect(reverse('main:main_page'))
+
     return render(request, 'main/login.html')
-
-
-
-
-

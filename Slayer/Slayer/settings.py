@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '1(_^36fgp!#tqg)*y-v9p)ws9ey%^s295sxm)tu90f^06c(2dw'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'main',
     'avatar',
+    'jet',
+    'jet.dashboard',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,6 +92,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -105,7 +109,7 @@ USE_TZ = False
 SEND_BROKEN_LINK_EMAILS = False
 
 ADMINS = (
-    ("Aibek Prenov", "aiba.prenov@gmail.com"),
+    ("Kenen Almat", "kenenalmat@gmail.com"),
 )
 
 
@@ -114,15 +118,16 @@ AVATAR_MAX_AVATARS_PER_USER = 1  # previous avatars will be deleted
 AVATAR_MAX_SIZE = 5242880  # 5MB
 #AVATAR_AUTO_GENERATE_SIZES = (150, 80, 40, )
 AVATAR_PROVIDERS = (
+    'avatar.providers.PrimaryAvatarProvider',
     'avatar.providers.DefaultAvatarProvider',
     )
+
 
 FROM_EMAIL = u'slayer.kz <webmaster@slayer.kz>'
 EMAIL_HOST = '195.16.90.30'
 EMAIL_HOST_USER = 'webmaster@ent125.com'
 EMAIL_HOST_PASSWORD = '1590751'
 EMAIL_PORT = 25
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -138,7 +143,23 @@ LOGOUT_URL = '/logout/'
 AUTH_USER_MODEL = 'main.MainUser'
 
 SITE_URL = 'slayer.kz'
-
+SITE_ADDR = 'localhost:8000'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+JWT_KEY = "slayer-secret-key"
+JWT_ALGORITHM = "HS256"
+
+
+AVATAR_STORAGE_DIR = 'avatars/'
+
+AVATAR_DEFAULT_URL = 'avatar/avatar_empty.png'
+
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+
+TELEGRAM_BOT_TOKEN = "477361674:AAH8hKRS4yK-TufLcECTPFKH2-61toW8T2U"

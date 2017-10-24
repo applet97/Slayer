@@ -7,8 +7,23 @@ from django.contrib.auth.admin import UserAdmin
 from main.models import MainUser, Game, GameEntry, KillLog
 from main.forms import MainUserCreationForm, MainUserChangeForm
 
+from django.contrib.admin import AdminSite
+from django.utils.translation import ugettext_lazy
+
+from avatar.models import Avatar
+
+
+class AvatarInline(admin.TabularInline):
+    model = Avatar
+    extra = 1
+
 @admin.register(MainUser)
 class MainUserAdmin(UserAdmin):
+
+    inlines = [
+        AvatarInline
+    ]
+
     form = MainUserChangeForm
 
     add_form = MainUserCreationForm
@@ -16,17 +31,14 @@ class MainUserAdmin(UserAdmin):
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
     list_display = (
-        'id',
         'username',
-        'email',
-        'email_approved',
         'first_name',
-        'is_moderator',
-        'is_superuser',
-        'city',
+        'second_name',
+        'faculty',
+        'course',
+        'game',
         'is_active',
-        'gender',
-        'course'
+        'is_superuser',
     )
 
     list_filter = ('is_moderator', )
@@ -36,15 +48,13 @@ class MainUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields' : (
                     'username',
+                    'game',
                     'email',
                     'first_name',
-                    'middle_name',
                     'second_name',
                     'mobile_phone',
                     'faculty',
-                    'birth_date',
-                    'gender',
-                    'course'
+                    'course',
             )}),
         ('Password', {'fields' : ('password', ) }),  # we can change password in admin-site
         ('Permissions', {'fields' : ('is_active',  'is_moderator', 'is_superuser',  ) }),
@@ -52,12 +62,14 @@ class MainUserAdmin(UserAdmin):
 
 
     add_fieldsets = (
-        (None, {'fields' : ('username', 'password1', 'password2') }),
+        (None, {'fields' : ('username', 'password1', 'password2', 'game', 
+                'first_name', 'second_name', 'faculty', 'course') }),
         ('Permissions', {'fields' : ('is_active', 'is_superuser', ) }),
     )
 
     ordering = ('username',)
     filter_horizontal = ()
+
 
 
 @admin.register(Game)
@@ -68,22 +80,28 @@ class GameAdmin(admin.ModelAdmin):
         'status',
         'shuffled',
         'start_date',
-        'end_date'
+        'end_date',
     )
+
+
 
 
 @admin.register(GameEntry)
 class GameEntryAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'game',
         'player',
         'victim',
+        'status',
         'kills',
-        'approved',
+        'game',
         'secret_key',
-        'status'
+        'is_active',
     )
+
+    list_filter = ('status', )
+
+    ordering = ('status', '-kills')
 
 
 @admin.register(KillLog)
@@ -96,3 +114,5 @@ class KillLogAdmin(admin.ModelAdmin):
         'timestamp'
     )
     
+
+admin.site.site_header = 'Slayer administration'

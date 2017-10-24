@@ -1,6 +1,5 @@
 {% extends "main/base.html" %}
 {% load avatar_tags %}
-
 {% block content %}
 <div class="container">
 	<div class="row">
@@ -8,7 +7,7 @@
             <h4 style="text-align:center">Ребята! Разрешается убивать жертв в ИХН, так как это тоже территория КБТУ! Всем удачи!</h4>
         </div>
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <h4>Чтобы убить свою жертву, напишите его секретный ключ</h4>
+            <h4 class="text-center">Введите секретный ключ жертвы</h4>
 			<form class="form" action="{% url 'main:main_page' %}" method="post">
 	            {% csrf_token %}
 	            <div class="input-group">
@@ -22,77 +21,170 @@
     </div>
     <div class="row">
         <hr>
-    	<div class="col-md-6">
-            <h4>Вы</h4>
-            <div class="row">
-                <div class="col-md-5">
-    		      <a href="{% avatar_url me %}" >{% avatar me 200 %}</a>
-                </div>
-                <div class="col-md-7">
-                    <div class="row">
-                        ФИО:    {{ me.first_name }} {{ me.second_name }}
-                        {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>
-                        {% else %} <span style="color: red; ">Убит</span>
+        
+        
+        {% if my_entry is not None %}
+            
+            {% if my_entry.status != 1 %} 
+                {% if winner is my_entry.player %}
+                    <div class="col-md-6">
+                        <div class="row">
+                            {% avatar me 200 %}
+                            <div class="col-md-7">
+                                 <div class="row">
+                                    ФИО:    {{ me.first_name }} {{ me.second_name }}
+                                    <span style="color: green;">Жив</span>
+                                </div>
+                                <div class="row">Факультет: {% if victim.faculty == 0 %} ФИТ
+                                                        {% elif victim.faculty == 1 %} Бизнес школа
+                                                        {% elif victim.faculty == 2 %} ФЭНГИ
+                                                        {% elif victim.faculty == 3 %} МШЭ
+                                                        {% else %} Нет информации
+                                                        {% endif %}
+                                </div>
+                                <div class="row">Курс: {{victim.course}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 style="font-size: 72px;">
+                            ВЫ <br> ПОБЕДИЛИ :)
+                        </h3>
+                    </div>
+                {% else %}
+                    <div class="col-md-6">
+                        <h4>Вы</h4>
+                        <div class="row">
+                                <div class="col-md-5">
+                                  {% avatar me 200 %}
+                                </div>
+                                <div class="col-md-7 user_info">
+                                    <div class="row">
+                                        ФИО:    {{ me.first_name }} {{ me.second_name }}
+                                        
+                                        {% if parent_entry %} <span style="color: green;">Жив</span>
+                                        {% else %} <span style="color: red; ">Убит</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row"> Факультет: {% if me.faculty == 0 %} ФИТ
+                                                        {% elif me.faculty == 1 %} Бизнес школа
+                                                        {% elif me.faculty == 2 %} ФЭНГИ
+                                                        {% elif me.faculty == 3 %} МШЭ
+                                                        {% elif me.faculty == 5 %} КМА
+                                                        {% elif me.faculty == 6 %} ХТОВ
+                                                        {% elif me.faculty == 7 %} МКМ
+                                                        {% else %} Нет информации
+                                                        {% endif %}
+                                    </div>
+                                    <div class="row"> Ваш секретный ключ: 
+                                    {% if my_entry.game.status != 0 %}
+                                        <span class="secret_key">
+                                            Qwerty12345
+                                        </span>
+                                    {% else %}
+                                        Скрыто до начала игры
+                                    {% endif %}
+                                        <span>
+                                        </span>
+                                        </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Ваша жертва</h4>
+                        {% if my_entry.game.status != 0  %}
+                            <div class="row">
+                                <div class="col-md-5">
+                                  {% avatar victim 200 %}
+                                </div>
+                                <div class="col-md-7 user_info">
+                                    <div class="row">
+                                        ФИО: {{ victim.first_name }} {{ victim.second_name }} 
+                                        {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>
+                                        {% else %} <span style="color: red; ">Убит</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row">Факультет: {% if victim.faculty == 0 %} ФИТ
+                                                        {% elif victim.faculty == 1 %} Бизнес школа
+                                                        {% elif victim.faculty == 2 %} ФЭНГИ
+                                                        {% elif victim.faculty == 3 %} МШЭ
+                                                        {% else %} Нет информации
+                                                        {% endif %}
+                                    </div>
+                                    <div class="row">Курс: {{victim.course}}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row">Информация скрыта до начала игры</div>
                         {% endif %}
                     </div>
+                {% endif %}
+            {% else %}
+                <div class="col-md-6">
                     <div class="row">
-                        Дата рождения: {{ me.date_of_birth }}
-                    </div>
-                    <div class="row"> Факультет: {% if me.faculty == 0 %} ФИТ
-                                        {% elif me.faculty == 1 %} Бизнес школа
-                                        {% elif me.faculty == 2 %} ФЭНГИ
-                                        {% elif me.faculty == 3 %} МШЭ
-                                        {% elif me.faculty == 5 %} КМА
-                                        {% elif me.faculty == 6 %} ХТОВ
-                                        {% elif me.faculty == 7 %} МКМ
-                                        {% else %} Нет информации
-                                        {% endif %}
-                    </div>
-
-                    <div class="row"> Ваш секретный ключ: 
-                    {% if my_entry.game.status != 0 %}
-                        {{ my_entry.secret_key }}
-                    {% else %}
-                        Скрыто до начала игры
-                    {% endif %}
+                        <div class="col-md-5">
+                            {% avatar me 200 %}
                         </div>
+                        <div class="col-md-7">
+                             <div class="row">
+                                ФИО:    {{ me.first_name }} {{ me.second_name }}
+                                <span style="color: red;">Убит</span>
+                            </div>
+                            <div class="row">Факультет: {% if victim.faculty == 0 %} ФИТ
+                                                    {% elif victim.faculty == 1 %} Бизнес школа
+                                                    {% elif victim.faculty == 2 %} ФЭНГИ
+                                                    {% elif victim.faculty == 3 %} МШЭ
+                                                    {% else %} Нет информации
+                                                    {% endif %}
+                            </div>
+                            <div class="row">Курс: {{victim.course}}</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-    	</div>
-    	<div class="col-md-6">
-            <h4>Ваша жертва</h4>
-            {% if my_entry.game.status != 0  %}
+                <div class="col-md-6">
+                    <h3 style="font-size: 72px;">
+                        ВАС УБИЛИ :(
+                    </h3>
+                </div>
+            {% endif %}
+
+        {% else %} 
+            
+            <div class="col-md-6">
+                <h4>Вы</h4>
                 <div class="row">
                     <div class="col-md-5">
-                      <a href="{% avatar_url me %}" >{% avatar victim 200 %}</a>
+                      {% avatar me 200 %}
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 user_info">
                         <div class="row">
-                            ФИО: {{ victim.first_name }} {{ victim.second_name }} 
-                            {% if victim_entry.status == 0 %} <span style="color: green;">Жив</span>
-                            {% else %} <span style="color: red; ">Убит</span>
-                            {% endif %}
+                            ФИО:    {{ me.first_name }} {{ me.second_name }}
                         </div>
-                        <div class="row">
-                            Дата рождения: {{ victim.date_of_birth }}
-                        </div>
-                        <div class="row">Факультет: {% if victim.faculty == 0 %} ФИТ
-                                            {% elif victim.faculty == 1 %} Бизнес школа
-                                            {% elif victim.faculty == 2 %} ФЭНГИ
-                                            {% elif victim.faculty == 3 %} МШЭ
+                        <div class="row"> Факультет: {% if me.faculty == 0 %} ФИТ
+                                            {% elif me.faculty == 1 %} Бизнес школа
+                                            {% elif me.faculty == 2 %} ФЭНГИ
+                                            {% elif me.faculty == 3 %} МШЭ
+                                            {% elif me.faculty == 5 %} КМА
+                                            {% elif me.faculty == 6 %} ХТОВ
+                                            {% elif me.faculty == 7 %} МКМ
                                             {% else %} Нет информации
                                             {% endif %}
                         </div>
-                        <div class="row">Курс: {{victim.course}}</div>
+                        <div class="row"> Ваш секретный ключ: 
+                            Скрыто до начала игры
+                        </div>
                     </div>
                 </div>
-            {% else %}
+            </div>
+
+            <div class="col-md-6">
+                <h4>Ваша жертва</h4>
                 <div class="row">Информация скрыта до начала игры</div>
-            {% endif %}
-    	</div>
+            </div>
+        {% endif %}
+
     </div>        
 </div>
-
 <script type="text/javascript">
     time={{game_start_left}},r=document.getElementById('r'),tmp=time;
     setInterval(function(){
@@ -101,5 +193,4 @@
     tmp!=0||(tmp=time);
     },1000);
 </script>
-
 {% endblock content %}

@@ -4,20 +4,75 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.conf import settings
 from django.db.models import Count
 from random import randint
-import datetime
-import time
-import random
-import hashlib
+import datetime, time, random, hashlib
 from django.template.loader import render_to_string
 
 from avatar.models import Avatar
+from utils import random_gen
+
+class Game(models.Model):
+    name = models.CharField(max_length=200, blank=False, null=False, verbose_name=u'Название игры')
+    
+    NOT_STARTED = 0
+    STARTED = 1
+    FINISHED = 2
+
+    STATUSES = (
+            (NOT_STARTED, u'Не началась'),
+            (STARTED, u'Началась'),
+            (FINISHED, u'Закончилась')
+        )
+
+    status = models.SmallIntegerField(choices=STATUSES, default=NOT_STARTED, verbose_name=u'Статус игры')
+
+    shuffled = models.BooleanField(default=False)
+
+    start_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Время начала игры')
+    end_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Время окончания игры')
+
+    timestamp = models.DateTimeField(auto_now=True)
+
+
+    def __unicode__(self):
+        return self.name
+
+    def to_json(self):
+        result = dict()
+        result['name'] = self.name
+        result['start_date'] = time.mktime(self.start_date.timetuple())
+        result['end_date'] = time.mktime(self.end_date.timetuple())
+        result['timestamp'] = time.mktime(self.timestamp.timetuple())
+        return result
+
+
+    def shuffle_game_players(self):
+        """
+        """
+        game_players = list(self.game_players.filter(is_active=True, is_superuser=False))
+        random.shuffle(game_players)
+        return game_players
+
+
+    def init_game(self):
+        """
+        """
+        players = self.shuffle_game_players()
+
+        for i in range(0, len(players)):
+            player = players[i]
+            victim = players[i-1];
+            game_entry, created = GameEntry.objects.get_or_create(game=self, player=player)
+            game_entry.secret_key = random_gen.get_random_string(length=8)
+            game_entry.victim = victim
+            game_entry.save()
 
 
 class MainUserManager(BaseUserManager):
+
     def create_user(self, username, password=None):
         """
         Creates and saves a user with the given iin and password
-        """
+        """ 
         if not username:
             raise ValueError('Users must have an username')
         user = self.model(username=username)
@@ -45,12 +100,15 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, blank=True, verbose_name=u'email')
     email_approved = models.BooleanField(default=False, blank=True, verbose_name=u'Имейл подтвержден')
 
+    game = models.ForeignKey(Game, blank=True, null=True, related_name='game_players')
+
     first_name = models.CharField(max_length=255, blank=True, verbose_name=u'Имя')
     middle_name = models.CharField(max_length=255, blank=True, verbose_name=u'Отчество')
     second_name = models.CharField(max_length=255, blank=True, verbose_name=u'Фамилия')
     school = models.CharField(max_length=100, blank=True, verbose_name=u'Школа')
 
     mobile_phone = models.CharField(max_length=20, blank=True, verbose_name=u'Номер телефона')
+
 
     FIT = 0
     BS = 1
@@ -155,6 +213,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
         )
 
     city = models.SmallIntegerField(choices=CITIES, default=0, verbose_name=u'Город')
+    
 
     @property
     def is_staff(self):
@@ -179,75 +238,50 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
         except:
             # no avatar
             pass
+            
         return {
-                'id': self.pk,
                 'username': self.username,
-                'email': self.email, 
                 'first_name':self.first_name,
                 'second_name': self.second_name,
-                'school': self.school,
-                'city': self.city,
+                'course': self.course,
+                'faculty': self.faculty,
                 'avatar': url,
-                'gender': self.gender,
-                'email_approved': self.email_approved
                 }
 
 
-class Game(models.Model):
-    name = models.CharField(max_length=200, blank=False, null=False, verbose_name=u'Название игры')
+
+class GameEntryManager(models.Manager):
     
-    NOT_STARTED = 0
-    STARTED = 1
-    FINISHED = 2
-
-    STATUSES = (
-            (NOT_STARTED, u'Не началась'),
-            (STARTED, u'Началась'),
-            (FINISHED, u'Закончилась')
-        )
-
-    status = models.SmallIntegerField(choices=STATUSES, default=NOT_STARTED, verbose_name=u'Статус игры')
-
-    shuffled = models.BooleanField(default=False)
-
-    start_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Время начала игры')
-    end_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Время окончания игры')
-
-    timestamp = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.name
-
-    def to_json(self):
-        result = dict()
-        result['name'] = self.name
-        result['start_date'] = time.mktime(self.start_date.timetuple())
-        result['end_date'] = time.mktime(self.end_date.timetuple())
-        result['timestamp'] = time.mktime(self.timestamp.timetuple())
-        return result
+    def create_game_entry(self, player, victim):
+        """
+        """        
+        game_entry = self.create(player=player, victim=victim)
+        game_entry.secret_key = "a";
+        game_entry.save()
+        return game_entry
 
 
 class GameEntry(models.Model):
-    game = models.ForeignKey(Game, blank=False, null=False, related_name='game_entries')
-    player = models.ForeignKey(MainUser, blank=False, null=False, related_name='player_game_entries')
-    victim = models.ForeignKey(MainUser, blank=True, null=True, related_name='victim_game_entries')
+    game = models.ForeignKey('Game', blank=False, null=False, related_name='game_entries')
+    player = models.ForeignKey('MainUser', blank=False, null=False, related_name='player_game_entries')
+    victim = models.ForeignKey('MainUser', blank=True, null=True, related_name='victim_game_entries')
 
     kills = models.SmallIntegerField(default=0, verbose_name=u'Убийств')
 
     approved = models.BooleanField(default=True)
     secret_key = models.CharField(max_length=50, blank=True, null=True, verbose_name=u'Секретный ключ')
+    is_active = models.BooleanField(default=True, verbose_name=u"Активно")
+    timestamp = models.DateTimeField(auto_now=True)
 
     ALIVE = 0
     KILLED = 1
-
+    
     STATUSES = (
             (ALIVE, u'Жив'),
             (KILLED, u'Убит')
         )
 
     status = models.SmallIntegerField(choices=STATUSES, default=0, verbose_name=u'Статус')
-    
-    timestamp = models.DateTimeField(auto_now=True)
 
     def to_json(self):
         result = dict()
@@ -263,18 +297,20 @@ class GameEntry(models.Model):
         return result
 
     def __unicode__(self):
-        return self.game.__unicode__() + " " + self.player.__unicode__()
+        return self.game.__unicode__() + " " + self.player.__unicode__() + " vs " + self.victim.__unicode__()
 
     class Meta:
         unique_together = ('game', 'player',)
         verbose_name_plural = u'Game Entries'
+        ordering = ['-is_active']
 
 
 class KillLogManager(models.Manager):
 
     def create_log(self, entry):
         # TODO: push notification about new kill
-        self.create(game=entry.game, killer=entry.player, victim=entry.victim)
+        log = self.create(game=entry.game, killer=entry.player, victim=entry.victim)
+        return log
 
 
 class KillLog(models.Model):
@@ -296,4 +332,3 @@ class KillLog(models.Model):
 
     def __unicode__(self):
         return self.game.__unicode__() + " " + self.killer.__unicode__()
-
