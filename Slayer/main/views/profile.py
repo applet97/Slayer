@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.template import Context, RequestContext
 from django.conf import settings
 from django.contrib import messages
-from main.messages import *
 from django.db.models import Q
 from django.contrib.auth.forms import PasswordChangeForm
 
