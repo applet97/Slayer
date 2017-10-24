@@ -9,4 +9,4 @@ env.repository = "https://github.com/applet97/Slayer.git"
 env.user = "ubuntu"
 env.hosts = ["18.195.8.85"]
 env.key_filename = "~/slayer.pem"
-env.filename = "docker-compose.yml"
+env.filename = "Slayer/docker-compose.yml"
