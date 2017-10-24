@@ -118,6 +118,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     KMA = 5
     XTOB = 6
     MKM = 7
+    ADMINISTRATION = 8
 
     FACULTIES = (
         (FIT, u'ФИТ'),
@@ -127,6 +128,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
         (KMA, u'КМА'),
         (XTOB, u'ХТОВ'),
         (MKM, u'МКМ'),
+        (ADMINISTRATION, u'Администрация'),
         )
 
     FIRST = 1
@@ -134,12 +136,15 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     THIRD = 3
     FOURTH = 4
     FIFTH = 5
+    NA = 0
+    
     COURSES = (
         (FIRST, u'Первый'),
         (SECOND, u'Второй'),
         (THIRD, u'Третий'),
         (FOURTH, u'Четвертый'),
         (FIFTH, u'Пятый'),
+        (NA, u'N/A'),
         )
 
     course = models.SmallIntegerField(choices=COURSES, default=FIRST, verbose_name=u'Курс')

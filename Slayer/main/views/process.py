@@ -35,23 +35,25 @@ def basic(request):
     try:
         my_entry = GameEntry.objects.get(player=request.user)
     except Exception as e:
-        print "here"
+        
         pass
     
 
-    print "shiit"
 
-    if my_entry is not None:    
+    if my_entry is not None: 
+
         try:
             victim_entry = GameEntry.objects.get(player=my_entry.victim)
         except Exception as e:
+
             pass
+
 
         params['my_entry'] = my_entry
         params['secret_key'] = my_entry.secret_key
         params['victim'] = my_entry.victim
         params['victim_entry'] = victim_entry
-        # params['game'] = my_entry.game
+        params['game'] = my_entry.game
         delta = Game.objects.first().start_date - datetime.datetime.now()
         params['game_start_left'] = delta.days * 24 * 60 * 60 +  delta.seconds
 
