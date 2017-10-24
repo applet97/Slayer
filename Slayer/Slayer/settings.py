@@ -142,7 +142,7 @@ LOGOUT_URL = '/logout/'
 
 AUTH_USER_MODEL = 'main.MainUser'
 
-SITE_URL = '18.195.8.85'
+SITE_URL = 'slayer.kz'
 SITE_ADDR = 'localhost:8000'
 
 MEDIA_URL = '/media/'

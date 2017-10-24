@@ -1,6 +1,6 @@
 FROM hypuk/dockerfile:python
 
-ENV DJANGO_SETTINGS_MODULE = slayer.settings
+ENV DJANGO_SETTINGS_MODULE = slayer.dev_settings
 
 ENV TZ = Asia/Almaty
 RUN mkdir /db && mkdir /static && mkdir /photo && mkdir /django_logs
