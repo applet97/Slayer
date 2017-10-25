@@ -51,6 +51,7 @@ def basic(request):
         params['my_entry'] = my_entry
         params['secret_key'] = my_entry.secret_key
         params['victim'] = my_entry.victim
+        
         params['victim_entry'] = victim_entry
         params['game'] = my_entry.game
         delta = Game.objects.first().start_date - datetime.datetime.now()

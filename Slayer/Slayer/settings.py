@@ -153,7 +153,7 @@ JWT_ALGORITHM = "HS256"
 
 
 AVATAR_STORAGE_DIR = 'avatars/'
-
+AVATAR_AUTO_GENERATE_SIZES = (80, 200)
 AVATAR_DEFAULT_URL = 'avatar/avatar_empty.png'
 
 
