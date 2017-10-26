@@ -369,3 +369,14 @@ body,html{
 /*.user_info {
     margin-left: 10px !important;
 }*/
+
+.user_ava {
+    width: 100%;
+    height: auto;
+}
+
+.user_ava_div {
+    width: 200px;
+    max-height: auto;
+}
+
