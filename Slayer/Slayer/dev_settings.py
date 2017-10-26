@@ -1,7 +1,7 @@
 from settings import *
 
 
-ALLOWED_HOSTS = ["slayer.kz", "18.194.254.202"]
+ALLOWED_HOSTS = ["slayer.kz", "18.194.178.77"]
 
 BROKER_URL = 'amqp://mlm:mlm@rabbit:5672/mlm'
 CELERY_ACCEPT_CONTENT = ['json']
@@ -12,7 +12,8 @@ MEDIA_ROOT = "/media"
 
 STATIC_ROOT = "/static"
 
-SITE_URL = "http://18.194.254.202"
+SITE_URL = "slayer.kz"
+
 ADMINS_LIST = ['kenenalmat@gmail.com']
 
 DATABASES = {
