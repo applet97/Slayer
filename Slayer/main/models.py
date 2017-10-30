@@ -64,7 +64,45 @@ class Game(models.Model):
             game_entry, created = GameEntry.objects.get_or_create(game=self, player=player)
             game_entry.secret_key = random_gen.get_random_string(length=8)
             game_entry.victim = victim
+            game_entry.status = GameEntry.ALIVE
             game_entry.save()
+
+
+    def disqualify(self):
+        """
+        """
+        game_entries = self.game_entries.all()
+        
+        for game_entry in game_entries:
+            player = game_entry.player
+
+            killer_logs = player.killer_logs.all().order_by('-timestamp')
+            print player 
+
+            to_disqualify = False
+
+            if not killer_logs:
+                started_time = game_entry.timestamp
+                delta = datetime.datetime.now() - started_time
+                if delta > datetime.timedelta(days=3):
+                    to_disqualify = True
+            else:
+                last_kill = killer_logs[0].timestamp
+                delta = datetime.datetime.now() - last_kill
+                if delta > datetime.timedelta(days=3):
+                    to_disqualify = True
+
+            if to_disqualify:
+                victim_entry = GameEntry.objects.get(player=game_entry.victim)
+                parent_entry = GameEntry.objects.get(victim=player, status=GameEntry.ALIVE)
+                
+                parent_entry.victim = victim_entry.player
+                parent_entry.save()
+
+                game_entry.status = GameEntry.DISQUALIFIED
+                game_entry.save()
+
+
 
 
 class MainUserManager(BaseUserManager):
@@ -136,6 +174,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     THIRD = 3
     FOURTH = 4
     FIFTH = 5
+    MASTER = 6
     NA = 0
     
     COURSES = (
@@ -144,6 +183,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
         (THIRD, u'Третий'),
         (FOURTH, u'Четвертый'),
         (FIFTH, u'Пятый'),
+        (MASTER, u'Магистрант'),
         (NA, u'N/A'),
         )
 
@@ -280,10 +320,12 @@ class GameEntry(models.Model):
 
     ALIVE = 0
     KILLED = 1
-    
+    DISQUALIFIED = 2
+
     STATUSES = (
             (ALIVE, u'Жив'),
-            (KILLED, u'Убит')
+            (KILLED, u'Убит'),
+            (DISQUALIFIED, u'Дисквалифицирован')
         )
 
     status = models.SmallIntegerField(choices=STATUSES, default=0, verbose_name=u'Статус')
@@ -336,4 +378,4 @@ class KillLog(models.Model):
         return result
 
     def __unicode__(self):
-        return self.game.__unicode__() + " " + self.killer.__unicode__()
+        return self.game.__unicode__() + " " + self.killer.__unicode__() + " " + self.victim.__unicode__() + " " + self.timestamp.strftime('%d/%m/%Y')

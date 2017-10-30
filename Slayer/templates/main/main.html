@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
         <div class="row">
-            <h4 style="text-align:center">Ребята! Разрешается убивать жертв в ИХН, так как это тоже территория КБТУ! Всем удачи!</h4>
+            <h4 style="text-align:center">Разрешается убивать жертв в ИХН, так как это тоже территория КБТУ!</h4>
         </div>
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <h4 class="text-center">Введите секретный ключ жертвы</h4>
@@ -21,18 +21,18 @@
     </div>
     <div class="row">
         <hr>
-        
-        
+
         {% if my_entry is not None %}
-            
-            {% if my_entry.status != 1 %} 
+            {% if my_entry.status == 0 %} 
+
+
                 {% if winner is my_entry.player %}
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-5 user_ava_div">
                                 {% avatar me 200 class="img-responsive user_ava" %}    
                             </div>
-                            
+
                             <div class="col-md-7">
                                  <div class="row">
                                     ФИО:    {{ me.first_name }} {{ me.second_name }}
@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <h3 style="font-size: 72px;">
+                        <h3 style="font-size: 48px;">
                             ВЫ <br> ПОБЕДИЛИ :)
                         </h3>
                     </div>
@@ -77,10 +77,7 @@
                                 <div class="col-md-7 user_info">
                                     <div class="row">
                                         ФИО:    {{ me.first_name }} {{ me.second_name }}
-                                        
                                         <span style="color: green;">Жив</span>
-                                        
-                                        
                                     </div>
                                     <div class="row"> Факультет: {% if me.faculty == 0 %} ФИТ
                                                         {% elif me.faculty == 1 %} Бизнес школа
@@ -102,7 +99,7 @@
                                                        {% endif %}
                                     </div>
                                     <div class="row"> Ваш секретный ключ: 
-                                        <span class="secret_key">
+                                        <span>
                                             {{my_entry.secret_key}}
                                         </span>
                                     </div>
@@ -144,7 +141,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 {% endif %}
             {% else %}
@@ -156,7 +152,11 @@
                         <div class="col-md-7">
                              <div class="row">
                                 ФИО:    {{ me.first_name }} {{ me.second_name }}
-                                <span style="color: red;">Убит</span>
+                                {% if my_entry.status == 1 %}
+                                    <span style="color: red;">Убит</span>
+                                {% else%}
+                                    <span style="color: red;">Дисквалифицирован</span>
+                                {% endif %}
                             </div>
                             <div class="row"> Факультет: {% if me.faculty == 0 %} ФИТ
                                                         {% elif me.faculty == 1 %} Бизнес школа
@@ -181,9 +181,11 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h3 style="font-size: 72px;">
-                        ВАС УБИЛИ :(
-                    </h3>
+                        {% if my_entry.status == 1 %}
+                            <h3 style="font-size: 48px;"> ВАС УБИЛИ :( </h3>
+                        {% else%}
+                            <h3 style="font-size: 48px;"> ВЫ <br> ДИСКВАЛИФИЦИРОВАНЫ :( </h3>
+                        {% endif %}
                 </div>
             {% endif %}
 
@@ -225,7 +227,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="col-md-6">
