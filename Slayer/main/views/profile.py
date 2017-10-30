@@ -58,7 +58,7 @@ def search(request):
     template = 'main/search.html'
     if request.method == "POST":
         search_by = request.POST.get('search_by')
-        params['users'] = User.objects.filter(is_superuser=False, Q(username__contains=search_by)|Q(first_name__contains=search_by)| \
+        params['users'] = User.objects.filter(Q(username__contains=search_by)|Q(first_name__contains=search_by)| \
      	   Q(second_name__contains=search_by))
         return render(request, template, params)
     return render(request, template)
