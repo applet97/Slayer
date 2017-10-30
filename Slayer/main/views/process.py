@@ -41,6 +41,7 @@ def basic(request):
 
     if my_entry is not None: 
 
+        victime_entry = None
         try:
             victim_entry = GameEntry.objects.get(player=my_entry.victim)
         except Exception as e:
