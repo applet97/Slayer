@@ -62,7 +62,7 @@ class Game(models.Model):
             player = players[i]
             victim = players[i-1];
             game_entry, created = GameEntry.objects.get_or_create(game=self, player=player)
-            game_entry.secret_key = random_gen.get_random_string(length=8)
+            game_entry.secret_key = random_gen.get_random_string(length=6)
             game_entry.victim = victim
             game_entry.status = GameEntry.ALIVE
             game_entry.save()

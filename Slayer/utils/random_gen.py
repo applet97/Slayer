@@ -3,8 +3,8 @@ import random
 def get_random_string(length=6):
 	"""
 	"""
-	number = '0123456789'
-	alpha = 'abcdefghijklmnopqrstuvwxyz'
+	number = '023456789'
+	alpha = 'abcdefghijkmnopqrstuvwxyz'
 	ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 	res = ''
