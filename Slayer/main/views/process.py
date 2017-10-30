@@ -77,8 +77,6 @@ def basic(request):
 
             if secret_key != "":
                 
-                print "secret_key: " + secret_key
-                
                 if my_entry.status is GameEntry.KILLED:
                     messages.add_message(request, messages.WARNING, YOU_WERE_KILLED)
                 elif secret_key == victim_entry.secret_key:
@@ -116,7 +114,7 @@ def rating(request):
     params['alive_count'] = GameEntry.objects.filter(player__is_superuser=False, status=GameEntry.ALIVE).count()
     params['entries'] = GameEntry.objects.filter(player__is_superuser=False).order_by('status', '-kills')
     
-    
+    # print params
     return render(request, template, params)
 
 
