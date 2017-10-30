@@ -14,7 +14,7 @@
 		<th>Аватарка</th><th>Имя</th><th>Факультет</th><th>Курс</th><th>Убийств</th><th>Статус</th>
     	{% for entry in entries %}
     	<tr>
-	    	<td><a href="{% avatar_url entry.player %}" >{% avatar entry.player 80 %}</a></td>
+	    	<td><a href="{% avatar_url entry.player 300 %}" >{% avatar entry.player 80 %}</a></td>
 	    	<td>{{entry.player.first_name }} {{ entry.player.second_name}}</td>
 	    	<td>{% if entry.player.faculty == 0 %} ФИТ
 	    		{% elif entry.player.faculty == 1 %} Бизнес школа
