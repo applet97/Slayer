@@ -5,18 +5,30 @@
 <div class="container">
 
 	<table class="table table-striped table-hover">
-		<th>Аватарка</th><th>Имя</th><th>Дата рождения</th><th>Факультет</th>
+		<th>Аватар</th><th>ФИО</th><th>Факультет</th><th>Курс</th>
     	{% for user in users %}
     	<tr>
-	    	<td><a href="{% avatar_url user %}" >{% avatar user 80 %}</a></td>
-	    	<td>{{user.first_name }}{{ user.second_name}}</td>
-	    	<td>{{user.birth_date}}</td>
+	    	<td><a href="{% avatar_url user 300 %}" >{% avatar user 80 %}</a></td>
+	    	<td>{{user.first_name }} {{ user.second_name}}</td>
 	    	<td>{% if user.faculty == 0 %} ФИТ
-	    		{% elif user.faculty == 1 %} Бизнес школа
-	    		{% elif user.faculty == 2 %} ФЭНГИ
-	    		{% elif user.faculty == 3 %} МШЭ
-	    		{% else %} Нет информации
-	    		{% endif %}
+                {% elif user.faculty == 1 %} БШ
+                {% elif user.faculty == 2 %} ФЭНГИ
+                {% elif user.faculty == 3 %} МШЭ
+                {% elif user.faculty == 5 %} КМА
+                {% elif user.faculty == 6 %} ХТОВ
+                {% elif user.faculty == 7 %} МКМ
+                {% elif user.faculty == 8 %} Администрация
+                {% else %} Нет информации
+                {% endif %}
+	    	</td>
+	    	<td>
+	    	   {% if user.course == 1 %} Первый
+               {% elif user.course == 2 %} Второй
+               {% elif user.course == 3 %} Третий
+               {% elif user.course == 4 %} Четвертый
+               {% elif user.course == 5 %} Пятый
+               {% else %} Нет информации
+               {% endif %}
 	    	</td>
 	    </tr>
     	{% endfor %}
