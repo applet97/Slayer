@@ -5,9 +5,10 @@
 <div class="container">
 
 	<table class="table table-striped table-hover">
-		<th>Аватар</th><th>ФИО</th><th>Факультет</th><th>Курс</th>
+		<th>#</th><th>Аватар</th><th>ФИО</th><th>Факультет</th><th>Курс</th>
     	{% for user in users %}
     	<tr>
+    		<td>{{forloop.counter}}</td>
 	    	<td><a href="{% avatar_url user 300 %}" >{% avatar user 80 %}</a></td>
 	    	<td>{{user.first_name }} {{ user.second_name}}</td>
 	    	<td>{% if user.faculty == 0 %} ФИТ
