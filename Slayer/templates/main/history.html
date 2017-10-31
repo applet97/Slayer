@@ -16,12 +16,13 @@
             <td><a href="{% avatar_url kill_log.victim 300 %}" >{% avatar kill_log.victim 80 %}</a></td>
             <td>{{kill_log.victim.first_name }} {{ kill_log.victim.second_name}}</td>
         	<td>{% if kill_log.victim.faculty == 0 %} ФИТ
-	    	    {% elif kill_log.victim.faculty == 1 %} Бизнес школа
+	    	    {% elif kill_log.victim.faculty == 1 %} БШ
                 {% elif kill_log.victim.faculty == 2 %} ФЭНГИ
                 {% elif kill_log.victim.faculty == 3 %} МШЭ
                 {% elif kill_log.victim.faculty == 5 %} КМА
                 {% elif kill_log.victim.faculty == 6 %} ХТОВ
                 {% elif kill_log.victim.faculty == 7 %} МКМ
+                {% elif kill_log.victim.faculty == 8 %} Администрация
                 {% else %} Нет информации
                 {% endif %}
             </td>
