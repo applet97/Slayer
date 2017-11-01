@@ -114,9 +114,9 @@ def rating(request):
     params['alive_count'] = GameEntry.objects.filter(player__is_superuser=False, status=GameEntry.ALIVE).count()
 
     # entries = GameEntry.objects.filter(player__is_superuser=False).order_by('status', '-kills')
-    # params['entries'] = GameEntry.objects.filter(player__is_superuser=False).order_by('status', '-kills')
+    params['entries'] = GameEntry.objects.filter(player__is_superuser=False).order_by('status', '-kills', 'player')
     
-    
+
     return render(request, template, params)
 
 
