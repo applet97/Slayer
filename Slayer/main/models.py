@@ -65,6 +65,7 @@ class Game(models.Model):
             game_entry.secret_key = random_gen.get_random_string(length=6)
             game_entry.victim = victim
             game_entry.status = GameEntry.ALIVE
+            game_entry.kills = 0
             game_entry.save()
 
 

@@ -75,10 +75,10 @@ def basic(request):
 
             secret_key = request.POST.get('secret_key')
 
+
             if secret_key != "":
-                
-                if my_entry.status is GameEntry.KILLED:
-                    messages.add_message(request, messages.WARNING, YOU_WERE_KILLED)
+                if my_entry.status is GameEntry.KILLED or my_entry.status is GameEntry.DISQUALIFIED:
+                    messages.add_message(request, messages.WARNING, YOU_CANNOT_KILL)
                 elif secret_key == victim_entry.secret_key:
                     messages.add_message(request, messages.SUCCESS, SUCCESS_KILL)
                     KillLog.objects.create_log(entry=my_entry)
