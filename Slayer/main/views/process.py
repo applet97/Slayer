@@ -38,6 +38,7 @@ def basic(request):
         pass
     
 
+    
 
     if my_entry is not None: 
 
@@ -65,6 +66,11 @@ def basic(request):
             pass
 
         params['parent_entry'] = parent_entry
+
+        if my_entry.game.status == Game.FINISHED:
+            messages.add_message(request, messages.WARNING, GAME_OVER)
+            return render(request, template, params)
+
 
         if my_entry.player == my_entry.victim:
             params['winner'] = my_entry.player
